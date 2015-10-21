@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.mysql.neo4j.domain.CityNeo;
 import org.mysql.neo4j.domain.CountryNeo;
 import org.mysql.neo4j.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +52,15 @@ public class PlacesDbQueries {
     
     public CountryNeo findCountryByName(String name) {
     	return countryRepo.getCountryFromName(name);
+    }
+    
+    public List<CityNeo> findCitiesByCountryName(String countryName) {
+    	Iterable<CityNeo> result = cityRepo.getCitiesOfCountry(countryName);
+    	List<CityNeo> list = new ArrayList<CityNeo>();
+    	Iterator<CityNeo> it = result.iterator();
+    	while(it.hasNext()) {
+    		list.add(it.next());
+    	}
+    	return list;
     }
 }

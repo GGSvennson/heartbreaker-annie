@@ -3,6 +3,7 @@ package org.mysql.neo4j.placesimport;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mysql.neo4j.domain.CityNeo;
 import org.mysql.neo4j.domain.CountryNeo;
 import org.mysql.neo4j.domain.RootNeo;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -83,5 +84,22 @@ public class PlacesImporter {
 			tx.close();
 		}
 		return country;
+	}
+	
+	public List<CityNeo> queryDbGetCitiesByCountryName(String countryName) {
+		Transaction tx = graphDatabase.beginTx();
+		List<CityNeo> cities = new ArrayList<CityNeo>();
+		try {
+			System.out.println();System.out.println();
+	        System.out.println("Get cities by country name(=Spain).-");
+	        cities = queries.findCitiesByCountryName(countryName);
+	        for(CityNeo city: cities) {
+	        	System.out.println(city);
+	        }
+	    	tx.success();
+		} finally {
+			tx.close();
+		}
+		return cities;
 	}
 }
